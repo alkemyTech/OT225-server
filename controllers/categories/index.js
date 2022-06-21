@@ -45,5 +45,6 @@ const listCategories = async (req, res) => {
 
 module.exports = {
     createCategory,
-    updateCategory
+    updateCategory,
+    listCategories
 }; 
