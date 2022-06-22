@@ -27,7 +27,25 @@ const updateCategory = async (req, res) => {
     }
 }
 
+const listCategories = async (req, res) => {
+    try{
+        let data = await models.Categories.findAll({
+            attributes: ['name', 'description', 'image'],
+            paranoid: false,
+        });
+        if(data !== null){
+            res.status(200).json(data);
+        }else{
+            res.status(400).json({error: 'No hay categorías'});
+        }
+    }catch(error){
+        res.status(500).json({error: error.message});
+    }
+}
+
 module.exports = {
     createCategory,
-    updateCategory
-};
+    updateCategory,
+    listCategories
+}; 
+
