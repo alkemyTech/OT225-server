@@ -1,4 +1,7 @@
 'use strict';
+
+//@ts-check
+
 const {
   Model
 } = require('sequelize');
@@ -14,9 +17,25 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Activities.init({
+    /**
+ *  Name of each activity 
+ * @type {string}
+*/
     name: DataTypes.STRING,
+    /**
+     *  Description of each activity
+     * @type {string}
+    */
     content: DataTypes.TEXT,
+    /**
+ *  Url image of each activity
+ * @type {string}
+*/
     image: DataTypes.STRING,
+    /**
+ *  Date the activity was deleted
+ * @type {Date}
+*/
     deletedAt: DataTypes.DATE
   }, {
     sequelize,
