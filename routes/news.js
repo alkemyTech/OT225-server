@@ -14,6 +14,7 @@ router.get("/:id", async (req, res) => {
   res.json(news);
 });
 
+
 router.post('/',createNew)
 
 module.exports = router;
