@@ -1,12 +1,9 @@
 'use strict';
-
-//@ts-check
-
 const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Activities extends Model {
+  class Categories extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -16,31 +13,14 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   };
-  Activities.init({
-    /**
- *  Name of each activity 
- * @type {string}
-*/
+  Categories.init({
     name: DataTypes.STRING,
-    /**
-     *  Description of each activity
-     * @type {string}
-    */
-    content: DataTypes.TEXT,
-    /**
- *  Url image of each activity
- * @type {string}
-*/
+    description: DataTypes.STRING,
     image: DataTypes.STRING,
-    /**
- *  Date the activity was deleted
- * @type {Date}
-*/
     deletedAt: DataTypes.DATE
   }, {
     sequelize,
-    modelName: 'Activities',
-    paranoid: true
+    modelName: 'Categories',
   });
-  return Activities;
+  return Categories;
 };
