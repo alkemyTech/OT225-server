@@ -11,7 +11,7 @@ class newsController {
     }
   }
 }
-
+/* controlador para crear una novedad */
 const createNew = async (req, res) => {
   try {
     if (
@@ -32,6 +32,8 @@ const createNew = async (req, res) => {
     res.status(500).json({ err: err.message });
   }
 };
+
+/* controllador para actualizar una novedad */
 const updateNew = async (req, res) => {
   try {
     if (
