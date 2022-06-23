@@ -68,7 +68,7 @@ const getCategoryDetails = async (req, res) => {
         if (category !== null) {
             return res.status(201).json(category);
         } else {
-            return res.status(400).json({ error: 'La categoría solicitada no existe' });
+            return res.status(404).json({ error: 'La categoría solicitada no existe' });
         }
     } catch (error) {
         return res.status(500).json({ error: error.message });
