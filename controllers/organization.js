@@ -5,7 +5,7 @@ class organizationControllers {
     static async getAll(req, res) {
         try{
             const organizations = await Organization.findAll({
-                attributes: ['name','image','phone','address'],
+                attributes: ['name','image','phone','address','url_facebook','url_linkedin','url_instagram'],
                 paranoid: false
             });
             res.status(200).json ({
