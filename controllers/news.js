@@ -10,6 +10,21 @@ class newsController {
       return res.status(500).json({ error });
     }
   }
+  /* Delete news */
+  static async delete(req, res) {
+    const id = parseInt(req.params.id);
+    try {
+      const deleted = await models.News.destroy({
+        where: {
+          id:id
+        }
+      })
+      //console.log(deleted);
+      deleted === 1 ? res.status(200).json({success: true, message:`News deleted successfully.`}) : res.status(404).json({success: false, message:`Not found id.`});
+    } catch (error) {
+      res.status(500).json({error: error.message});
+    }
+  }
 }
 /* controlador para crear una novedad */
 const createNew = async (req, res) => {
@@ -32,6 +47,7 @@ const createNew = async (req, res) => {
     res.status(500).json({ err: err.message });
   }
 };
+
 
 /* controllador para actualizar una novedad */
 const updateNew = async (req, res) => {
@@ -59,6 +75,7 @@ const updateNew = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
 module.exports = {
   newsController,
   createNew,
