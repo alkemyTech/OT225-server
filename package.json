@@ -22,6 +22,7 @@
     "swagger-ui-express": "^4.4.0"
   },
   "devDependencies": {
+    "jsdoc": "^3.6.10",
     "sequelize-cli": "^6.2.0"
   }
 }
