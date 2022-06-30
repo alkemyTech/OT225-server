@@ -10,24 +10,26 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
-  }
-  Organization.init(
-    {
-      name: DataTypes.STRING,
-      image: DataTypes.STRING,
-      address: DataTypes.STRING,
-      phone: DataTypes.INTEGER,
-      email: DataTypes.STRING,
-      welcomeText: DataTypes.TEXT,
-      aboutUsText: DataTypes.TEXT,
-    },
-    {
-      sequelize,
-      modelName: "Organization",
-      paranoid: true,
-      timestamps: false,
-      deletedAt: "destroyTime",
-    }
-  );
+
+  };
+  Organization.init({
+    name: DataTypes.STRING,
+    image: DataTypes.STRING,
+    address: DataTypes.STRING,
+    phone: DataTypes.INTEGER,
+    email: DataTypes.STRING,
+    welcomeText: DataTypes.TEXT,
+    aboutUsText: DataTypes.TEXT,
+    url_facebook: DataTypes.STRING,
+    url_linkedin: DataTypes.STRING,
+    url_instagram: DataTypes.STRING,
+  }, {
+    sequelize,
+    modelName: 'Organization',
+    paranoid: true,
+    timestamps: true,
+    deletedAt: 'destroyTime'
+  });
+
   return Organization;
 };
