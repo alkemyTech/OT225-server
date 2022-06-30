@@ -11,6 +11,7 @@ const usersRouter = require('./routes/users');
 const categoriesRouter = require('./routes/categories.js')
 const newsRouter = require('./routes/news')
 const organizationsRouter = require('./routes/organization');
+const testimonyRouter = require('./routes/testimony');
 
 
 
@@ -32,8 +33,8 @@ app.use('/users', usersRouter);
 app.use('/categories', categoriesRouter);
 app.use('/news', newsRouter);
 app.use('/organization', organizationsRouter);
-
 app.use('/categories', categoriesRouter);
+app.use('/testimonies', testimonyRouter);
 
 
 
