@@ -1,9 +1,14 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const organizationControllers = require('../controllers/organization');
+const {
+  organizationControllers,
+  updateOrganization,
+} = require("../controllers/organization");
 
-router
-    .get('/public', organizationControllers.getAll);
+router.get("/public", organizationControllers.getAll);
 
+/* update de Organización */
+
+router.put("/public/:id", updateOrganization);
 
 module.exports = router;
