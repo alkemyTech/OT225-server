@@ -1,5 +1,5 @@
 const models = require("../models");
-
+/* crea un nuevo testimonio */
 const createTestimony = async (req, res) => {
   try {
     if (
@@ -10,7 +10,7 @@ const createTestimony = async (req, res) => {
       req.body.image !== "" &&
       typeof req.body.image === "string"
     ) {
-      await models.testimonials.create(req.body);
+      await models.Testimonials.create(req.body);
       res.status(201).json({ message: "Testimony created" });
     } else {
       res.status(400).json({ err: "Datos ingresados incorrectos." });
@@ -19,7 +19,7 @@ const createTestimony = async (req, res) => {
     res.status(500).json({ err: err.message });
   }
 };
-
+/* actualiza un testimonio */
 const updateTestimony = async (req, res) => {
   try {
     if (
@@ -27,11 +27,11 @@ const updateTestimony = async (req, res) => {
       (req.body.image !== "" && typeof req.body.image === "string") ||
       (req.body.content !== "" && typeof req.body.content === "string")
     ) {
-      let data = await models.testimonials.findOne({
+      let data = await models.Testimonials.findOne({
         where: { id: req.params.id },
       });
       if (data !== null) {
-        await models.testimonials.update(req.body, { where: { id: data.id } });
+        await models.Testimonials.update(req.body, { where: { id: data.id } });
         res.status(200).json({ message: "Testimony update" });
       } else {
         res.status(400).json({ error: "Testimony not found" });
@@ -45,8 +45,23 @@ const updateTestimony = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+/* hacer un soft delete de un testimonio existente */
+const deleteTestimony = async (req, res) => {
+  try{
+      let data = await models.Testimonials.findOne({where: {id: req.params.id}})
+      if(data !== null){
+          await models.Testimonials.destroy({where: {id: data.id}})
+          res.status(200).json({message: "Testimonio eliminada"})
+      }else{
+          res.status(400).json({error: 'el testimonio no existe'})
+      }
+  }catch(error){
+      res.status(500).json({error: error.message})
+  }
+}
 
 module.exports = {
   createTestimony,
   updateTestimony,
+  deleteTestimony
 };
