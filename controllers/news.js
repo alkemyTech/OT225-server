@@ -16,13 +16,12 @@ class newsController {
     try {
       const deleted = await models.News.destroy({
         where: {
-          id:id
+          id: id
         }
       })
-      //console.log(deleted);
-      deleted === 1 ? res.status(200).json({success: true, message:`News deleted successfully.`}) : res.status(404).json({success: false, message:`Not found id.`});
+      deleted === 1 ? res.status(200).json({ success: true, message: `News deleted successfully.` }) : res.status(404).json({ success: false, message: `Not found id.` });
     } catch (error) {
-      res.status(500).json({error: error.message});
+      res.status(500).json({ error: error.message });
     }
   }
 }
@@ -35,8 +34,8 @@ const createNew = async (req, res) => {
       req.body.content !== "" &&
       typeof req.body.name === "string" &&
       req.body.image !== "" &&
-      typeof req.body.image === "string" && 
-      !isNaN(req.body.categoryId) 
+      typeof req.body.image === "string" &&
+      !isNaN(req.body.categoryId)
     ) {
       await models.News.create(req.body);
       res.status(201).json({ message: "New created" });
