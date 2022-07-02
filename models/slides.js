@@ -34,9 +34,15 @@ module.exports = (sequelize, DataTypes) => {
 *  Association with an Organization (id)
 * @type {integer}
 */
-    organizationId: DataTypes.INTEGER
+    organizationId: DataTypes.INTEGER,
+    /**
+ *  Date the activity was deleted
+ * @type {Date}
+*/
+    deletedAt: DataTypes.DATE
   }, {
     sequelize,
+    paranoid: true,
     modelName: 'Slides',
   });
   return Slides;
