@@ -42,6 +42,7 @@ app.use("/news", newsRouter);
 app.use("/organization", organizationsRouter);
 app.use('/activities', activitiesRouter);
 app.use('/categories', categoriesRouter);
+app.use('/slides', require('./routes/slides'));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
