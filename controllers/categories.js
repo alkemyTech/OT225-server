@@ -1,5 +1,3 @@
-const models = require("../models");
-
 //@ts-check
 
 // Category Object
