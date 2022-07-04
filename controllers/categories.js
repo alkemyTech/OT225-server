@@ -11,9 +11,6 @@ const models = require("../models");
  * @property {string} image - category image
  */
 
-const express = require("express");
-const models = require('../models');
-
 const createCategory = async (req, res) => {
     try {
         if (req.body.name !== null && typeof req.body.name === 'string') {
