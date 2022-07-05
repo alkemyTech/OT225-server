@@ -1,3 +1,4 @@
+const models = require('./../models/');
 //@ts-check
 
 // Category Object
@@ -9,7 +10,7 @@
  * @property {string} image - category image
  */
 
-const createCategory = async (req, res) => {
+ const createCategory = async (req, res) => {
     try {
         if (req.body.name !== null && typeof req.body.name === 'string') {
             await models.Categories.create(req.body);
