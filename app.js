@@ -1,10 +1,12 @@
-const createError = require("http-errors");
-const express = require("express");
-const path = require("path");
-const cookieParser = require("cookie-parser");
-const logger = require("morgan");
-const cors = require("cors");
-require("dotenv").config();
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const cors = require('cors')
+require('dotenv').config()
+
+const membersRouter = require('./routes/members');
 const swaggerUi = require("swagger-ui-express");
 const config = require("./config/config");
 const indexRouter = require("./routes/index");
@@ -44,6 +46,9 @@ app.use("/news", newsRouter);
 app.use("/organization", organizationsRouter);
 app.use('/activities', activitiesRouter);
 app.use('/categories', categoriesRouter);
+app.use('/news', newsRouter);
+app.use('/organization', organizationsRouter);
+app.use('/members', membersRouter);
 app.use('/slides', require('./routes/slides'));
 app.use('/testimonies', testimonyRouter);
 app.use('/contacts', contactsRouter);
