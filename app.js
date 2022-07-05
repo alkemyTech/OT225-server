@@ -1,10 +1,12 @@
-const createError = require("http-errors");
-const express = require("express");
-const path = require("path");
-const cookieParser = require("cookie-parser");
-const logger = require("morgan");
-const cors = require("cors");
-require("dotenv").config();
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const cors = require('cors')
+require('dotenv').config()
+
+const membersRouter = require('./routes/members');
 const swaggerUi = require("swagger-ui-express");
 const config = require("./config/config");
 const indexRouter = require("./routes/index");
@@ -14,6 +16,7 @@ const newsRouter = require("./routes/news");
 const organizationsRouter = require("./routes/organization");
 const activitiesRouter = require('./routes/activities');
 const testimonyRouter = require('./routes/testimony');
+const contactsRouter = require('./routes/contacts.js');
 
 const app = express();
 app.use(cors());
@@ -43,7 +46,13 @@ app.use("/news", newsRouter);
 app.use("/organization", organizationsRouter);
 app.use('/activities', activitiesRouter);
 app.use('/categories', categoriesRouter);
+app.use('/news', newsRouter);
+app.use('/organization', organizationsRouter);
+app.use('/members', membersRouter);
+app.use('/slides', require('./routes/slides'));
 app.use('/testimonies', testimonyRouter);
+app.use('/contacts', contactsRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

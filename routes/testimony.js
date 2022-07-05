@@ -1,8 +1,14 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const { createTestimony } = require('../controllers/testimony');
+const {
+  createTestimony,
+  updateTestimony,
+  deleteTestimony,
+} = require("../controllers/testimony");
 
-router.post('/', createTestimony);
+router.post("/", createTestimony);
+router.put("/:id", updateTestimony);
+router.delete("/:id", deleteTestimony);
 
 module.exports = router;
