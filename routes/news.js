@@ -20,6 +20,8 @@ router.post("/", createNew);
 router.put("/:id", updateNew);
 
 /* Eliminar novedad */
-router.delete('/:id', newsController.delete)
+router.delete('/:id', newsController.delete);
+//Lista comentarios de una News segun su ID
+router.get('/:id/comments', newsController.listNewsComments);
 
 module.exports = router;

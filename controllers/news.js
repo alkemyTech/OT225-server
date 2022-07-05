@@ -24,7 +24,23 @@ class newsController {
       res.status(500).json({ error: error.message });
     }
   }
-}
+//Permite listar todos los comentarios de una novedad
+  static async listNewsComments(req, res) {
+    try{
+      let data = await models.News.findOne({
+        where: {id: req.params.id},
+        include: models.Comments
+      });
+      if(data.length !== 0){
+        res.status(200).json({data: data});
+      }else{
+        res.status(400).json({error: "No hay comentarios para mostrar"});
+      };
+    }catch(error){
+      res.status(500).json({error: error.message});
+    };
+  };
+};
 /* controlador para crear una novedad */
 const createNew = async (req, res) => {
   try {
