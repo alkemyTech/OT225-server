@@ -16,13 +16,12 @@ class newsController {
     try {
       const deleted = await models.News.destroy({
         where: {
-          id:id
+          id: id
         }
       })
-      //console.log(deleted);
-      deleted === 1 ? res.status(200).json({success: true, message:`News deleted successfully.`}) : res.status(404).json({success: false, message:`Not found id.`});
+      deleted === 1 ? res.status(200).json({ success: true, message: `News deleted successfully.` }) : res.status(404).json({ success: false, message: `Not found id.` });
     } catch (error) {
-      res.status(500).json({error: error.message});
+      res.status(500).json({ error: error.message });
     }
   }
 }
