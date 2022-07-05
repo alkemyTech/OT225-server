@@ -8,6 +8,7 @@ require('dotenv').config()
 
 const membersRouter = require('./routes/members');
 const swaggerUi = require("swagger-ui-express");
+const swaggerjsDoc = require('swagger-jsdoc')
 const config = require("./config/config");
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
@@ -21,12 +22,6 @@ const contactsRouter = require('./routes/contacts.js');
 const app = express();
 app.use(cors());
 
-/* swagger */
-app.use(
-  config.swagger.path,
-  swaggerUi.serve,
-  swaggerUi.setup(require("./swagger/swagger.json"))
-);
 
 // view engine setup
 
@@ -38,6 +33,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
+/* swagger */
+app.use(
+  config.swagger.path,
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerjsDoc(require("./swagger/swagger.json")))
+);
+
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
