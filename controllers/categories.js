@@ -8,7 +8,12 @@
  * @property {string} description - category description
  * @property {string} image - category image
  */
+const express = require('express');
+const models = require('./../models');
 
+
+
+//Permite crear una categoria, la cual debe recibir el campo name y ser un string
 const createCategory = async (req, res) => {
     try {
         if (req.body.name !== null && typeof req.body.name === 'string') {
@@ -40,6 +45,7 @@ const updateCategory = async (req, res) => {
 //Lista toda las categorias existentes
 const listCategories = async (req, res) => {
     try{
+        //Si recibe la query page, realiza una paginacion al listar las categorias con un limite de 10 por pagina
         if(req.query.page !== undefined){
             const page = parseInt(req.query.page, 10);
             const {count, rows} = await models.Categories.findAndCountAll({
@@ -70,6 +76,7 @@ const listCategories = async (req, res) => {
                 res.status(400).json({error: 'No hay categorías en esta pagina'});
             }
         }else{
+            //Caso contrario lista todas las categorias existentes
             let data = await models.Categories.findAll({
                 attributes: ['name', 'description', 'image'],
                 paranoid: false,
