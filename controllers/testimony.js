@@ -34,7 +34,7 @@ const updateTestimony = async (req, res) => {
         await models.Testimonials.update(req.body, { where: { id: data.id } });
         res.status(200).json({ message: "Testimony update" });
       } else {
-        res.status(400).json({ error: "Testimony not found" });
+        res.status(404).json({ error: "Testimony not found" });
       }
     } else {
       res
@@ -51,9 +51,9 @@ const deleteTestimony = async (req, res) => {
       let data = await models.Testimonials.findOne({where: {id: req.params.id}})
       if(data !== null){
           await models.Testimonials.destroy({where: {id: data.id}})
-          res.status(200).json({message: "Testimonio eliminada"})
+          res.status(200).json({message: "Testimonio eliminado"})
       }else{
-          res.status(400).json({error: 'el testimonio no existe'})
+          res.status(404).json({error: 'El testimonio no existe'})
       }
   }catch(error){
       res.status(500).json({error: error.message})
