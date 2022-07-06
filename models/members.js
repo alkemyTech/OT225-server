@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Members.init({
+    
     /**
      * Name of each Members
      * @type {string}
@@ -23,7 +24,8 @@ module.exports = (sequelize, DataTypes) => {
      * image of each Members
      * @type {string}
      */
-    image: DataTypes.STRING
+    image: DataTypes.STRING,
+    //deletedAt: DataTypes.DATE,
   }, {
     sequelize,
     modelName: 'Members',
