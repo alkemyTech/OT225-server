@@ -4,8 +4,38 @@ const models = require("../models");
 class newsController {
   static async getAll(req, res) {
     try {
-      const news = await News.findAll({});
-      res.status(200).json({});
+      if(req.query.page ==! undefined) {
+        const page = parseInt(req.query.page, 10);
+        const { count, rows } = await models.News.findAndCountAll({
+          limit: 10,
+          offset: page * 10 - 10,
+          attributes: ['name', 'content', 'image', 'categoryId']
+        });
+        if(rows.length ==! 0) {
+          let prevPage, nextPage;
+          if (page > 1) {
+            prevPage = page - 1;
+          }
+          if (page * 10 < count) {
+            nextPage = page + 1;
+          }
+          let data = {}
+          if (prevPage) data.paginaAnterior = '/categories?page=' + prevPage;
+          data.paginaActual = page;
+          if (nextPage) data.paginaSiguiente = '/categories?page=' + nextPage;
+          data.data = rows;
+          res.status(200).json(data);
+        }else{
+          res.status(400).json({error: "No hay novedades en esta pagina"});
+        }
+      }else{
+        let data = await models.News.findAll({
+          attributes: ['name', 'content', 'image', 'categoryId']
+        });
+        if(data ==! null) res.status(200).json(data);
+        else res.status(400).json({error: "No hay novedades"});
+      }
+
     } catch (error) {
       return res.status(500).json({ error });
     }
@@ -24,7 +54,23 @@ class newsController {
       res.status(500).json({ error: error.message });
     }
   }
-}
+//Permite listar todos los comentarios de una novedad
+  static async listNewsComments(req, res) {
+    try{
+      let data = await models.News.findOne({
+        where: {id: req.params.id},
+        include: models.Comments
+      });
+      if(data.length !== 0){
+        res.status(200).json({data: data});
+      }else{
+        res.status(400).json({error: "No hay comentarios para mostrar"});
+      };
+    }catch(error){
+      res.status(500).json({error: error.message});
+    };
+  };
+};
 /* controlador para crear una novedad */
 const createNew = async (req, res) => {
   try {
