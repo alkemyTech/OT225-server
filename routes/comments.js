@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { updateComment } = require('./../controllers/comments.js')
+const { updateComment, deleteComment } = require('./../controllers/comments.js')
 
 const {
     createComment,
@@ -11,6 +11,7 @@ const {
 router.post('/', createComment);
 router.get('/', listComments);
 router.put('/:id', updateComment);
+router.delete('/:id', deleteComment);
 
 
 module.exports = router;
