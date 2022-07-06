@@ -24,6 +24,6 @@ module.exports = {
     dialect: "mysql",
   },
   swagger: {
-    path: '/api/docs'
-}
+    path: "/api/docs",
+  },
 };
