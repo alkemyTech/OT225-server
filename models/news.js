@@ -9,9 +9,12 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    /* static associate(models) {
-      News.belongsTo(models.Category, {as: 'category'});
-    } */
+    static associate(models) {
+      // News.belongsTo(models.Category, {as: 'category'});
+      News.hasMany(models.Comments, {
+        foreignKey: 'news_id'
+      })
+    }
   };
   News.init({
     name: DataTypes.STRING,
@@ -22,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'News',
+    paranoid: true,
   });
   return News;
 };

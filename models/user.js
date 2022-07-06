@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       User.belongsTo(models.Role, {as: 'role'});
+      User.hasMany(models.Comments, {
+        foreignKey: 'user_id'
+      })
     }
   };
   User.init({
@@ -20,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     image: DataTypes.STRING,
     password: DataTypes.STRING,
     roleId: DataTypes.INTEGER,
-    deletedAt: DataTypes.DATE
+    deletedAt: DataTypes.DATE,
   }, {
     sequelize,
     modelName: 'User',
