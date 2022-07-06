@@ -18,6 +18,7 @@ const organizationsRouter = require("./routes/organization");
 const activitiesRouter = require("./routes/activities");
 const testimonyRouter = require("./routes/testimony");
 const contactsRouter = require("./routes/contacts.js");
+const commentRouter = require('./routes/comments.js');
 
 const app = express();
 app.use(cors());
@@ -36,8 +37,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 
-
-
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/categories", categoriesRouter);
@@ -51,6 +50,7 @@ app.use("/members", membersRouter);
 app.use("/slides", require("./routes/slides"));
 app.use("/testimonies", testimonyRouter);
 app.use("/contacts", contactsRouter);
+app.use('/comments', commentRouter);
 
 
 /* swagger */
