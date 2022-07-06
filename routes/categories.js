@@ -51,6 +51,8 @@ const { getCategoryDetails, createCategory, updateCategory, listCategories, dele
  *                          type: array
  *                          items: 
  *                              $ref: '#/components/schemas/Categories'
+ *          400:
+ *              description: No hay categorias para mostrar
  */
 router.get('/', listCategories);
 
@@ -59,7 +61,7 @@ router.get('/', listCategories);
  * @swagger
  * /categories/{id}:
  *  get:
- *      summary: Muestra las categorias almacenadas
+ *      summary: Muestra una categoria segun su ID
  *      tags: [Categories]
  *      parameters:
  *        - in: path
@@ -70,13 +72,15 @@ router.get('/', listCategories);
  *          description: Category Id
  *      responses:
  *          201:
- *              description: Todas las categorias
+ *              description: Categoria
  *              content:
  *                  application/json:
  *                      schema:
  *                          type: array
  *                          items: 
  *                              $ref: '#/components/schemas/Categories'
+ *          400:
+ *              description: La categoria no existe
  */
 router.get('/:id', getCategoryDetails);
 
@@ -97,6 +101,8 @@ router.get('/:id', getCategoryDetails);
  *      responses:
  *          201:
  *              description: Nueva categoria creada
+ *          400:
+ *              description: No se reciben los campos necesarios
  */
 router.post('/', createCategory);
 
@@ -124,8 +130,31 @@ router.post('/', createCategory);
  *      responses:
  *          200:
  *              description: Categoria actualizada
+ *          400:
+ *              description: La categoria no existe
  */
 router.put('/:id', updateCategory);
+
+//Eliminar una categoria
+/**
+ * @swagger
+ * /categories/{id}:
+ *  delete:
+ *      sumary: Elimina una categoria
+ *      tags: [Categories]
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *              type: string
+ *          required: true
+ *          description: Category Id
+ *      responses:
+ *          200:
+ *              description: Categoria eliminada
+ *          400:
+ *              description: La categoria no existe
+ */
 router.delete('/:id', deleteCategory);
 
 module.exports = router; 
