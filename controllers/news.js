@@ -35,11 +35,10 @@ class newsController {
         if(data ==! null) res.status(200).json(data);
         else res.status(400).json({error: "No hay novedades"});
       }
-
     } catch (error) {
-      return res.status(500).json({ error });
+        return res.status(500).json({ error: error.message })
     }
-  }
+};
   /* Delete news */
   static async delete(req, res) {
     const id = parseInt(req.params.id);
@@ -111,7 +110,7 @@ const updateNew = async (req, res) => {
         await models.News.update(req.body, { where: { id: data.id } });
         res.status(200).json({ message: "Novedad actualizada" });
       } else {
-        res.status(400).json({ error: "La novedad solicitada no existe" });
+        res.status(404).json({ error: "La novedad solicitada no existe" });
       }
     } else {
       res.status(400).json({ error: "Ingrese datos a modificar correctamente" });
