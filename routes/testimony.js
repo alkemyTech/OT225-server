@@ -5,9 +5,11 @@ const {
   createTestimony,
   updateTestimony,
   deleteTestimony,
+  listTestimony
 } = require("../controllers/testimony");
 
 router.post("/", createTestimony);
+router.get('/', listTestimony);
 router.put("/:id", updateTestimony);
 router.delete("/:id", deleteTestimony);
 
