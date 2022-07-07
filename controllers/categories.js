@@ -1,4 +1,3 @@
-const models = require("./../models/");
 //@ts-check
 
 // Category Object
@@ -9,7 +8,9 @@ const models = require("./../models/");
  * @property {string} description - category description
  * @property {string} image - category image
  */
+const express = require('express');
 
+//Permite crear una categoria, la cual debe recibir el campo name y ser un string
 const createCategory = async (req, res) => {
   try {
     if (req.body.name !== null && typeof req.body.name === "string") {
@@ -44,50 +45,53 @@ const updateCategory = async (req, res) => {
 
 //Lista toda las categorias existentes
 const listCategories = async (req, res) => {
-  try {
-    if (req.query.page !== undefined) {
-      const page = parseInt(req.query.page, 10);
-      const { count, rows } = await models.Categories.findAndCountAll({
-        attributes: ["name", "description", "image"],
-        offset: page * 10 - 10,
-        limit: 10,
-      });
-      const nextPage = (page, total) => {
-        if (total / 10 > page) {
-          return page + 1;
-        }
-        return null;
-      };
-      const prevPage = (page) => {
-        if (page <= 1) {
-          return null;
-        }
-        return page - 1;
-      };
-      if (rows.length !== 0) {
-        res.status(200).json({
-          paginaAnterior: `/categories?page=${prevPage(page)}`,
-          paginaActual: page,
-          paginaSiguiente: `/categories?page=${nextPage(page, count)}`,
-          data: rows,
-        });
-      } else {
-        res.status(400).json({ error: "No hay categorías en esta pagina" });
-      }
-    } else {
-      let data = await models.Categories.findAll({
-        attributes: ["name", "description", "image"],
-        paranoid: false,
-      });
-      if (data !== null) {
-        res.status(200).json(data);
-      } else {
-        res.status(400).json({ error: "No hay categorías" });
-      }
-    }
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+
+    try{
+        //Si recibe la query page, realiza una paginacion al listar las categorias con un limite de 10 por pagina
+        if(req.query.page !== undefined){
+            const page = parseInt(req.query.page, 10);
+            const {count, rows} = await models.Categories.findAndCountAll({
+                attributes: ['name', 'description', 'image'],
+                offset: (page * 10) - 10,
+                limit: 10
+            });
+            const nextPage = (page, total) => {
+                if((total/10)  > page){
+                    return page + 1;
+                };
+                return null;
+            };
+            const prevPage = (page) => {
+                if(page <= 1){
+                    return null;
+                };
+                return page - 1;
+            };
+            if(rows.length !== 0){
+                res.status(200).json({
+                    paginaAnterior: `/categories?page=${prevPage(page)}`,
+                    paginaActual: page,
+                    paginaSiguiente: `/categories?page=${nextPage(page, count)}`,
+                    data: rows
+                })
+            }else{
+                res.status(400).json({error: 'No hay categorías en esta pagina'});
+            }
+        }else{
+            //Caso contrario lista todas las categorias existentes
+            let data = await models.Categories.findAll({
+                attributes: ['name', 'description', 'image'],
+                paranoid: false,
+            });
+            if(data !== null){
+                res.status(200).json(data);
+            }else{
+                res.status(400).json({error: 'No hay categorías'});
+            };
+        };
+    }catch(error){
+        res.status(500).json({error: error.message});
+    };
 };
 
 /**

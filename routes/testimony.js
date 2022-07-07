@@ -5,6 +5,7 @@ const {
   createTestimony,
   updateTestimony,
   deleteTestimony,
+  listTestimony
 } = require("../controllers/testimony");
 
 /**
@@ -64,6 +65,7 @@ const {
 
 router.post("/", createTestimony);
 
+
 /**
  * @swagger
  * /testimonies/{id}:
@@ -95,9 +97,10 @@ router.post("/", createTestimony);
  *      500:
  *        description: Error del servidor
  */
-
-
 router.put("/:id", updateTestimony);
+
+
+router.get('/', listTestimony);
 
 /**
  * @swagger

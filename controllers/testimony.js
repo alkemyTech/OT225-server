@@ -60,8 +60,51 @@ const deleteTestimony = async (req, res) => {
   }
 }
 
+/* Listar Testimonios existentes paginados en 10 por pagina*/
+const listTestimony = async (req, res) => {
+  try{
+    if(req.query.page !== undefined){
+      const page = parseInt(req.query.page, 10);
+      const { count, rows } = await models.Testimonials.findAndCountAll({
+        attributes: ['name', 'image', 'content'],
+        offset: (page * 10) -10,
+        limit: 10
+      });
+      const nextPage = (page, total) => {
+        if((page / 10) > page){
+          return page + 1;
+        }else{
+          return null;
+        };
+      };
+      const prevPage = (page) => {
+        if(page <= 1){
+          return null;
+        }else{
+          return page -1;
+        };
+      };
+      if(rows.length !== 0){
+        res.status(200).json({
+          prevPage: `/testimonies/${prevPage(page)}`,
+          page: page,
+          nextPage: `/testimonies/${nextPage(page, count)}`,
+          data: rows
+        });
+      }else{
+        res.status(400).json({error: 'No hay testimonios para mostrar'})
+      };
+    }else{
+      res.status(400).json({error: 'Debe recibir la query page'})
+    };    
+  }catch(error){
+    res.status(500).json({error: error.message});
+  };
+};
+
 module.exports = {
   createTestimony,
   updateTestimony,
-  deleteTestimony
+  deleteTestimony,
+  listTestimony
 };
