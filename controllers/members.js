@@ -34,13 +34,36 @@ class membersControllers {
         const id = parseInt(req.params.id);
         try {
             const deleted = await Members.destroy({
-                where : {
-                    id:id
+                where: {
+                    id: id
                 }
             })
             deleted === 1 ? res.status(200).json({ success: true, message: `Member deleted successfully.` }) : res.status(404).json({ success: false, message: `Not found id.` });
         } catch (error) {
             return res.status(500).json({ error: error.message })
+        }
+    }
+    /* Update Member */
+    static async update(req, res) {
+        const id = parseInt(req.params.id);
+        try {
+            const member = await Members.findOne({
+                where: {
+                    id: id
+                }
+            });
+            console.log (member)
+            if (member) {
+                await Members.update(req.body, {
+                    where: { id: id }
+                });
+                res.status(200).send(`Usuario actualizado correctamente.`)
+            } else {
+                res.status(404).json({ error: 'Not found Id.' })
+            }
+        } catch (error) {
+            return res.status(500).json({ error: error.message })
+
         }
     }
 }
