@@ -11,7 +11,6 @@ const models = require('./../models/');
  */
 const express = require('express');
 
-
 //Permite crear una categoria, la cual debe recibir el campo name y ser un string
 const createCategory = async (req, res) => {
   try {
