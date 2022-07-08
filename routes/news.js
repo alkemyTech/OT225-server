@@ -9,6 +9,7 @@ const { createNew, updateNew, newsController } = require("../controllers/news");
  *    News:
  *      type: object
  *      required:
+ *        -name
  *        -content
  *        -image
  *        -categoryId
@@ -134,11 +135,6 @@ router.put("/:id", updateNew);
  
  *    responses:
  *      200:
- *        description: La noticia fue eliminada
- *        content:
- *          application/json:
- *            schema:
- *              $ref: '#components/schemas/News'
  *      404:
  *        description: No se encontro la noticia
  *      500:
