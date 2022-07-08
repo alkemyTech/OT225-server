@@ -9,6 +9,7 @@
  * @property {string} image - category image
  */
 const express = require('express');
+const models = require('./../models');
 
 //Permite crear una categoria, la cual debe recibir el campo name y ser un string
 const createCategory = async (req, res) => {
