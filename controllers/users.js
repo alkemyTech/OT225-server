@@ -24,7 +24,7 @@ const updateUser = async (req, res) => {
             where: {id: req.params.id}
         });
         if(user !== null){
-            await models.User.update(req.body, {where: {id: req.params. id}});
+            await models.User.update(req.body, {where: {id: user.id}});
             res.status(200).json({message: 'Usuario actualizado'});
         }else{
             res.status(404).json({error: 'Usuario no encontrado'});
@@ -34,8 +34,25 @@ const updateUser = async (req, res) => {
     };
 };
 
+//Permite realizar un borrado logico de un usuario
+const deleteUser = async (req, res) => {
+    try{
+        let user = await models.User.findOne({
+            where: {id: req.params.id}
+        });
+        if(user !== null){
+            await models.User.destroy({where: {id: user.id}});
+            res.status(200).json({message: 'Usuario eliminado'});
+        }else{
+            res.status(404).json({error: 'El usuario no existe'});
+        };
+    }catch(error){
+        res.status(500).json({error: error.message});
+    };
+};
 
 module.exports = {
     listUsers,
-    updateUser
+    updateUser,
+    deleteUser
 };

@@ -3,7 +3,8 @@ const router = express.Router();
 
 const {
   listUsers,
-  updateUser
+  updateUser,
+  deleteUser
 } = require('./../controllers/users.js');
 
 //------------ ENDPOINTS ------------//
@@ -11,6 +12,7 @@ const {
 router.get('/', listUsers);
 //Actualizar un usuario
 router.patch('/:id', updateUser);
-
+//Eliminar un usuario
+router.delete('/:id', deleteUser)
 
 module.exports = router;
