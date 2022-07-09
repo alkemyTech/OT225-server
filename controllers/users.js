@@ -122,4 +122,24 @@ const login = async (req, res) => {
     }
 };
 
-module.exports = { register, login };
+/**
+*  Check if exist an authenticated User
+* @function
+* @param {express.Request} User - User Object
+* @returns {Promise<User|Error>} - User or Error
+*/
+const authenticatedUser = async (req, res) => {
+    const { user } = req;
+    try {
+        if (user) {
+            return res.status(200).json(user)
+        }
+        return res.status(401).json("No hay un usuario autenticado")
+    } catch (error) {
+        return res.status(500).json({
+            Error: error.message
+        })
+    }
+};
+
+module.exports = { register, login, authenticatedUser };
