@@ -51,6 +51,7 @@ app.use("/slides", require("./routes/slides"));
 app.use("/testimonies", testimonyRouter);
 app.use("/contacts", contactsRouter);
 app.use('/comments', commentRouter);
+app.use('/auth', require('./routes/auth'));
 
 
 /* swagger */
