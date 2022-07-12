@@ -66,7 +66,10 @@ const getOrganizationSlides = async (req, res) => {
     if (!organization) {
       return res.status(404).json("La organización solicitado no existe");
     }
-    const slide = await Slides.findAll({ where: { organizationId: id } });
+    const slide = await Slides.findAll({
+      where: { organizationId: id },
+      order: ["order"],
+    });
     if (!slide) {
       return res.status(404).json("La organización solicitado no tiene slides");
     }
@@ -78,4 +81,8 @@ const getOrganizationSlides = async (req, res) => {
   }
 };
 
-module.exports = { organizationControllers, updateOrganization, getOrganizationSlides };
+module.exports = {
+  organizationControllers,
+  updateOrganization,
+  getOrganizationSlides,
+};
