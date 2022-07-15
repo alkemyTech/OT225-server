@@ -90,8 +90,7 @@ const login = async (req, res) => {
         };
 
         // Get user to check if passwords matchs
-        let user = await User.findOne({ where: { email: email } })
-
+        let user = await User.findOne({ where: { email: email } , raw: true})
         // Check password
         const validaPassword = bcrypt.compareSync(password, user.password);
         if (!validaPassword) {
@@ -102,7 +101,7 @@ const login = async (req, res) => {
         };
 
         //Generar JWT
-        const token = await jwtGenerator(user.email, user.id);
+        const token = await jwtGenerator(user.email, user.id, user.roleId);
 
         return res.header('Access-Control-Expose-Headers', 'Authorization').header('Authorization', token).status(201).send({
             message: "Usuario logueado con exito",
