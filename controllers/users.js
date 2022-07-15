@@ -3,6 +3,7 @@ const { validationResult } = require('express-validator');
 
 const { User } = require('../models');
 const { jwtGenerator } = require('../utils/jwt');
+const { sendEmail } = require('../utils/nodemailer')
 
 //@ts-check
 
@@ -52,6 +53,9 @@ const register = async (req, res) => {
 
         // generate JWT
         const token = await jwtGenerator(user.email, user.id);
+
+        // send confirm email registration
+        sendEmail(user.email, user.firstName)
 
         return res.status(201).json({
             message: `Se ha creado el usuario ${user.email}`,
