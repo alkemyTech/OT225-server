@@ -3,6 +3,7 @@ const { validationResult } = require('express-validator');
 
 const { User } = require('../models');
 const { jwtGenerator } = require('../utils/jwt');
+const { sendEmail } = require('../utils/nodemailer')
 
 //@ts-check
 
@@ -53,6 +54,9 @@ const register = async (req, res) => {
         // generate JWT
         const token = await jwtGenerator(user.email, user.id);
 
+        // send confirm email registration
+        sendEmail(user.email, user.firstName)
+
         return res.status(201).json({
             message: `Se ha creado el usuario ${user.email}`,
             user: {
@@ -90,8 +94,7 @@ const login = async (req, res) => {
         };
 
         // Get user to check if passwords matchs
-        let user = await User.findOne({ where: { email: email } })
-
+        let user = await User.findOne({ where: { email: email } , raw: true})
         // Check password
         const validaPassword = bcrypt.compareSync(password, user.password);
         if (!validaPassword) {
@@ -102,7 +105,7 @@ const login = async (req, res) => {
         };
 
         //Generar JWT
-        const token = await jwtGenerator(user.email, user.id);
+        const token = await jwtGenerator(user.email, user.id, user.roleId);
 
         return res.header('Access-Control-Expose-Headers', 'Authorization').header('Authorization', token).status(201).send({
             message: "Usuario logueado con exito",
@@ -142,4 +145,69 @@ const authenticatedUser = async (req, res) => {
     }
 };
 
-module.exports = { register, login, authenticatedUser };
+
+//Permite listar usuarios almacenados en base de datos
+const listUsers = async (req, res) => {
+    try{
+        let data = await User.findAll({
+            attributes: ['firstName', 'lastName', 'email', 'image']
+        });
+        if(data.lenght !== 0){
+            res.status(200).json({data: data});
+        }else{
+            res.status(400).json({error: 'No hay usuarios para mostar'});
+        };
+    }catch(error){
+        res.status(500).json({error: error.message});
+    };
+};
+
+//Permite actualizar los datos de un usuario
+const updateUser = async (req, res) => {
+    try{
+        let user = await User.findOne({
+            where: {id: req.params.id}
+        });
+        if(user !== null){
+            await User.update(req.body, {where: {id: user.id}});
+            res.status(200).json({message: 'Usuario actualizado'});
+        }else{
+            res.status(404).json({error: 'Usuario no encontrado'});
+        };
+    }catch(error){
+        res.status(500).json({error: error.message});
+    };
+};
+
+//Permite realizar un borrado logico de un usuario
+const deleteUser = async (req, res) => {
+    try{
+        let user = await User.findOne({
+            where: {id: req.params.id}
+        });
+        if(user !== null){
+            await User.destroy({where: {id: user.id}});
+            res.status(200).json({message: 'Usuario eliminado'});
+        }else{
+            res.status(404).json({error: 'El usuario no existe'});
+        };
+    }catch(error){
+        res.status(500).json({error: error.message});
+    };
+};
+
+
+
+
+
+
+
+
+module.exports = { 
+    register, 
+    login, 
+    authenticatedUser,
+    listUsers, 
+    updateUser,
+    deleteUser
+};
