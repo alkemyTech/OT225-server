@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
 
 //** Generate JWT */
-const jwtGenerator = async (username, userId) => {
+const jwtGenerator = async (username, userId, roleId) => {
     try {
-        const token = await jwt.sign({ name: username, id: userId }, process.env.SECRET_JWT);
+        const token = await jwt.sign({ name: username, id: userId, roleId: roleId}, process.env.SECRET_JWT);
 
         if (token) {
             return token;

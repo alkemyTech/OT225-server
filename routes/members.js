@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const membersControllers = require('../controllers/members');
+const {verifyRole} = require('../middlewares/auth')
 /**
  * @swagger
  * components:
@@ -116,7 +117,7 @@ const membersControllers = require('../controllers/members');
  *       description: Not found id.
  */
 router
-    .get('/', membersControllers.getAll) //List all members.
+    .get('/',verifyRole, membersControllers.getAll) //List all members.
     .post('/', membersControllers.add) //Create new member.
     .delete('/:id', membersControllers.delete) //Delete member.
     .put('/:id', membersControllers.update) //Update member
