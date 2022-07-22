@@ -9,7 +9,7 @@ chai.use(chaiHttp);
 
 /* Test the GET Route */
 describe("GET /users", () => {
-  it("Debe devolver una lista de los usuarios", (done) => {
+  it("Debe devolver un objecto con todos usuarios", (done) => {
     chai
       .request(app)
       .get("/users")
