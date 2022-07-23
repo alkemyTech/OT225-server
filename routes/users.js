@@ -1,9 +1,19 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const {verifyRole} = require('../middlewares/auth')
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+const {
+  listUsers,
+  updateUser,
+  deleteUser
+} = require('./../controllers/users.js');
+
+//------------ ENDPOINTS ------------//
+//Listar usuarios
+router.get('/', listUsers);
+//Actualizar un usuario
+router.patch('/:id', verifyRole, updateUser);
+//Eliminar un usuario
+router.delete('/:id', verifyRole, deleteUser)
 
 module.exports = router;
