@@ -107,7 +107,7 @@ const login = async (req, res) => {
         //Generar JWT
         const token = await jwtGenerator(user.email, user.id, user.roleId);
 
-        return res.header('Access-Control-Expose-Headers', 'Authorization').header('Authorization', token).status(201).send({
+        return res.header('Access-Control-Expose-Headers', 'Authorization').header('Authorization', token).status(200).send({
             message: "Usuario logueado con exito",
             user: {
                 id: user.id,

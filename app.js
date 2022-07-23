@@ -18,12 +18,10 @@ const organizationsRouter = require("./routes/organization");
 const activitiesRouter = require("./routes/activities");
 const testimonyRouter = require("./routes/testimony");
 const contactsRouter = require("./routes/contacts.js");
-const commentRouter = require('./routes/comments.js');
+const commentRouter = require("./routes/comments.js");
 
 const app = express();
 app.use(cors());
-
-
 
 // view engine setup
 
@@ -35,7 +33,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
@@ -50,9 +47,8 @@ app.use("/members", membersRouter);
 app.use("/slides", require("./routes/slides"));
 app.use("/testimonies", testimonyRouter);
 app.use("/contacts", contactsRouter);
-app.use('/comments', commentRouter);
-app.use('/auth', require('./routes/auth'));
-
+app.use("/comments", commentRouter);
+app.use("/auth", require("./routes/auth"));
 
 /* swagger */
 const swagger = {
@@ -67,11 +63,20 @@ const swagger = {
       {
         url: "http://localhost:3000",
         description: "Develop",
-      }
+      },
     ],
-    
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'apiKey',
+          name: 'Authorization',
+          scheme: 'bearer',
+          in: 'header',
+        },
+      },
+    },
   },
-  
+
   apis: ["./routes/*.js"],
 };
 
@@ -81,12 +86,10 @@ app.use(
   swaggerUi.setup(swaggerJsDoc(swagger))
 );
 
-
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
 });
-
 
 // error handler
 app.use(function (err, req, res, next) {
