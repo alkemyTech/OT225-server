@@ -5,11 +5,14 @@
   "scripts": {
     "start": "node ./bin/www",
     "docs": "jsdoc -c jsdoc.json",
-    "dev": "nodemon ./bin/www --watch controllers --watch routes --watch app.js"
+    "dev": "nodemon ./bin/www --watch controllers --watch routes --watch app.js",
+    "test": "mocha"
   },
   "dependencies": {
     "aws-sdk": "^2.1167.0",
     "bcryptjs": "^2.4.3",
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
@@ -20,9 +23,11 @@
     "http-errors": "~1.6.3",
     "jsdoc": "^3.6.10",
     "jsonwebtoken": "^8.5.1",
+    "mocha": "^10.0.0",
     "moment": "^2.29.3",
     "morgan": "~1.9.1",
     "mysql2": "^2.2.3",
+    "nyc": "^15.1.0",
     "nodemailer": "^6.7.7",
     "sequelize": "^6.21.0",
     "swagger-jsdoc": "^6.2.1",
