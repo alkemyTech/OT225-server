@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const {verifyRole} = require('../middlewares/auth')
 
 const {
   listUsers,
@@ -11,8 +12,8 @@ const {
 //Listar usuarios
 router.get('/', listUsers);
 //Actualizar un usuario
-router.patch('/:id', updateUser);
+router.patch('/:id', verifyRole, updateUser);
 //Eliminar un usuario
-router.delete('/:id', deleteUser)
+router.delete('/:id', verifyRole, deleteUser)
 
 module.exports = router;
