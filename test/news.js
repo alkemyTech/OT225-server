@@ -97,13 +97,16 @@ describe("PUT /news/:id", () => {
       });
   });
 });
+
+
+
 /* Test the DELETE route */
 describe("DELETE /news/:id", () => {
   it("Debe eliminar una novedad por id", (done) => {
-    const id = 21;
+    id = 42;
     chai
       .request(app)
-      .delete(`/news/${id}`)
+      .delete(`/news/${id}}`)
       .end((err, response) => {
         response.should.have.status(200);
         done();
