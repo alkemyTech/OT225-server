@@ -1,11 +1,9 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const { createContact, listContacts } = require('./../controllers/contacts.js')
+const { createContact, listContacts } = require("./../controllers/contacts.js");
+const { verifyToken } = require("../utils/jwt");
+router.post("/", verifyToken, createContact);
+router.get("/", listContacts);
 
-router.post('/', createContact);
-router.get('/', listContacts);
-
-
-
-module.exports = router
+module.exports = router;
