@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const {verifyRole} = require('../middlewares/auth')
 const {
   organizationControllers,
   updateOrganization,
@@ -12,6 +13,6 @@ router.get("/public", organizationControllers.getAll);
 router.get("/public/:id", getOrganizationSlides);
 /* update de Organización */
 
-router.put("/public/:id", updateOrganization);
+router.put("/public/:id", verifyRole, updateOrganization);
 
 module.exports = router;

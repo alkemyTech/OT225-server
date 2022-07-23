@@ -1,9 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
-const { createContact, listContacts } = require("./../controllers/contacts.js");
+const {verifyRole} = require('../middlewares/auth')
 const { verifyToken } = require("../utils/jwt");
-router.post("/", verifyToken, createContact);
+const { createContact, listContacts } = require('./../controllers/contacts.js')
+
+router.post('/', [verifyToken, verifyRole], createContact);
 router.get("/", listContacts);
 
 module.exports = router;
