@@ -50,4 +50,4 @@ const verifyOwnership = (req, res, next) => {
     }
 }
         
-module.exports = {verifyRole, verifyToken}
+module.exports = {verifyRole, verifyToken, verifyOwnership}

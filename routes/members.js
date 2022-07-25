@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const membersControllers = require('../controllers/members');
-const {verifyRole} = require('../middlewares/auth')
+
+const {verifyRole, verifyOwnership} = require('../middlewares/auth')
 /**
  * @swagger
  * components:
@@ -119,8 +120,8 @@ const {verifyRole} = require('../middlewares/auth')
 router
     .get('/',verifyRole, membersControllers.getAll) //List all members.
     .post('/', membersControllers.add) //Create new member.
-    .delete('/:id', membersControllers.delete) //Delete member.
-    .put('/:id', membersControllers.update) //Update member
+    .delete('/:id', verifyOwnership, membersControllers.delete) //Delete member.
+    .put('/:id', verifyOwnership, membersControllers.update) //Update member
 
 
 module.exports = router;

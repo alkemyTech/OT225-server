@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const { verifyOwnership } = require("../middlewares/auth");
+
 const { 
     getCategoryDetails, 
     createCategory, 
@@ -108,7 +110,7 @@ router.get('/:id', getCategoryDetails);
  *          400:
  *              description: No se reciben los campos necesarios
  */
-router.post('/', createCategory);
+router.post('/', verifyOwnership, createCategory);
 //Actualizar una categoria
 /**
  * @swagger
@@ -136,7 +138,7 @@ router.post('/', createCategory);
  *          400:
  *              description: La categoria no existe
  */
-router.put('/:id', updateCategory);
+router.put('/:id', verifyOwnership, updateCategory);
 //Eliminar una categoria
 /**
  * @swagger
@@ -157,6 +159,6 @@ router.put('/:id', updateCategory);
  *          400:
  *              description: La categoria no existe
  */
-router.delete('/:id', deleteCategory);
+router.delete('/:id', verifyOwnership, deleteCategory);
 
 module.exports = router; 
