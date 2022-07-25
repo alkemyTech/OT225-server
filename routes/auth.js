@@ -139,8 +139,6 @@ router.post("/login", loginValidator, login);
  * /auth/me:
  *  get:
  *    summary: Chequea si el usuario logeado este Autentificado
- *    security:
- *      - bearerAuth: []
  *    tags: [Auth]     
  *    responses:
  *      200:
