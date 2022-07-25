@@ -117,10 +117,10 @@ const {verifyRole} = require('../middlewares/auth')
  *       description: Not found id.
  */
 router
-    .get('/',verifyRole, membersControllers.getAll) //List all members.
-    .post('/', membersControllers.add) //Create new member.
-    .delete('/:id', membersControllers.delete) //Delete member.
-    .put('/:id', membersControllers.update) //Update member
+    .get('/', membersControllers.getAll) //List all members.
+    .post('/', verifyRole, membersControllers.add) //Create new member.
+    .delete('/:id', verifyRole, membersControllers.delete) //Delete member.
+    .put('/:id', verifyRole, membersControllers.update) //Update member
 
 
 module.exports = router;

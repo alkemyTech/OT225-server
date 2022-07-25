@@ -1,17 +1,16 @@
-const { News } = require("../models/news");
 const models = require("../models");
 
 class newsController {
   static async getAll(req, res) {
     try {
-      if(req.query.page ==! undefined) {
+      if (req.query.page == !undefined) {
         const page = parseInt(req.query.page, 10);
         const { count, rows } = await models.News.findAndCountAll({
           limit: 10,
           offset: page * 10 - 10,
-          attributes: ['name', 'content', 'image', 'categoryId']
+          attributes: ["name", "content", "image", "categoryId"],
         });
-        if(rows.length ==! 0) {
+        if (rows.length == !0) {
           let prevPage, nextPage;
           if (page > 1) {
             prevPage = page - 1;
@@ -19,57 +18,71 @@ class newsController {
           if (page * 10 < count) {
             nextPage = page + 1;
           }
-          let data = {}
-          if (prevPage) data.paginaAnterior = '/categories?page=' + prevPage;
+          let data = {};
+          if (prevPage) data.paginaAnterior = "/categories?page=" + prevPage;
           data.paginaActual = page;
-          if (nextPage) data.paginaSiguiente = '/categories?page=' + nextPage;
+          if (nextPage) data.paginaSiguiente = "/categories?page=" + nextPage;
           data.data = rows;
           res.status(200).json(data);
-        }else{
-          res.status(400).json({error: "No hay novedades en esta pagina"});
+        } else {
+          res.status(400).json({ error: "No hay novedades en esta pagina" });
         }
-      }else{
+      } else {
         let data = await models.News.findAll({
-          attributes: ['name', 'content', 'image', 'categoryId']
+          attributes: ["name", "content", "image", "categoryId"],
         });
-        if(data ==! null) res.status(200).json(data);
-        else res.status(400).json({error: "No hay novedades"});
+        if (data) res.status(200).json(data);
+        else res.status(400).json({ error: "No hay novedades" });
       }
     } catch (error) {
-        return res.status(500).json({ error: error.message })
+      return res.status(500).json({ error: error.message });
     }
-};
+  }
   /* Delete news */
   static async delete(req, res) {
     const id = parseInt(req.params.id);
     try {
       const deleted = await models.News.destroy({
         where: {
-          id: id
-        }
-      })
-      deleted === 1 ? res.status(200).json({ success: true, message: `News deleted successfully.` }) : res.status(404).json({ success: false, message: `Not found id.` });
+          id: id,
+        },
+      });
+      deleted === 1
+        ? res
+            .status(200)
+            .json({ success: true, message: `News deleted successfully.` })
+        : res.status(404).json({ success: false, message: `Not found id.` });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
   }
-//Permite listar todos los comentarios de una novedad
+  //Permite listar todos los comentarios de una novedad
   static async listNewsComments(req, res) {
-    try{
-      let data = await models.News.findOne({
-        where: {id: req.params.id},
-        include: models.Comments
+    try {
+      const news = await models.News.findOne({
+        where: { id: req.params.id },
       });
-      if(data.length !== 0){
-        res.status(200).json({data: data});
-      }else{
-        res.status(400).json({error: "No hay comentarios para mostrar"});
-      };
-    }catch(error){
-      res.status(500).json({error: error.message});
-    };
-  };
-};
+      if (!news) {
+        return res
+          .status(404)
+          .json({ error: "La novedad solicitado no existe" });
+      }
+      const comments = await models.Comments.findAll({
+        where: { news_id: req.params.id },
+      });
+      if (comments.length == 0) {
+        return res
+          .status(404)
+          .json({ error: "La novedad solicitado no tiene comentarios" });
+      }
+      return res.status(200).json({ comments: comments });
+    } catch (error) {
+      return res.status(500).json({
+        error: error.message,
+      });
+    }
+  }
+}
 /* controlador para crear una novedad */
 const createNew = async (req, res) => {
   try {
@@ -92,17 +105,13 @@ const createNew = async (req, res) => {
   }
 };
 
-
 /* controllador para actualizar una novedad */
 const updateNew = async (req, res) => {
   try {
     if (
-      req.body.name !== "" &&
-      typeof req.body.name === "string" ||
-      req.body.content !== "" &&
-      typeof req.body.name === "string" ||
-      req.body.image !== "" &&
-      typeof req.body.image === "string" ||
+      (req.body.name !== "" && typeof req.body.name === "string") ||
+      (req.body.content !== "" && typeof req.body.name === "string") ||
+      (req.body.image !== "" && typeof req.body.image === "string") ||
       !isNaN(req.body.categoryId)
     ) {
       let data = await models.News.findOne({ where: { id: req.params.id } });
@@ -113,7 +122,9 @@ const updateNew = async (req, res) => {
         res.status(404).json({ error: "La novedad solicitada no existe" });
       }
     } else {
-      res.status(400).json({ error: "Ingrese datos a modificar correctamente" });
+      res
+        .status(400)
+        .json({ error: "Ingrese datos a modificar correctamente" });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });

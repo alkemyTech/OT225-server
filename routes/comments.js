@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const {verifyRole} = require('../middlewares/auth')
 
 const { updateComment, deleteComment } = require('./../controllers/comments.js')
 
@@ -8,10 +9,10 @@ const {
     listComments
 } = require('./../controllers/comments.js');
 
-router.post('/', createComment);
+router.post('/', verifyRole, createComment);
 router.get('/', listComments);
-router.put('/:id', updateComment);
-router.delete('/:id', deleteComment);
+router.put('/:id', verifyRole, updateComment);
+router.delete('/:id', verifyRole, deleteComment);
 
 
 module.exports = router;

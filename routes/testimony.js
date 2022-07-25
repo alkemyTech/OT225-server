@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const {verifyRole} = require('../middlewares/auth')
 
 const {
   createTestimony,
@@ -63,7 +64,7 @@ const {
  *
  */
 
-router.post("/", createTestimony);
+router.post("/", verifyRole, createTestimony);
 
 
 /**
@@ -97,7 +98,7 @@ router.post("/", createTestimony);
  *      500:
  *        description: Error del servidor
  */
-router.put("/:id", updateTestimony);
+router.put("/:id", verifyRole, updateTestimony);
 
 
 router.get('/', listTestimony);
@@ -126,6 +127,6 @@ router.get('/', listTestimony);
  */
 
 
-router.delete("/:id", deleteTestimony);
+router.delete("/:id", verifyRole, deleteTestimony);
 
 module.exports = router;
