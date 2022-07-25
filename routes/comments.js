@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {verifyRole} = require('../middlewares/auth')
 
+const { verifyOwnership } = require('../middlewares/auth.js');
 const { updateComment, deleteComment } = require('./../controllers/comments.js')
 
 const {
@@ -11,8 +12,10 @@ const {
 
 router.post('/', verifyRole, createComment);
 router.get('/', listComments);
-router.put('/:id', verifyRole, updateComment);
-router.delete('/:id', verifyRole, deleteComment);
+
+router.put('/:id', verifyOwnership, updateComment);
+router.delete('/:id', verifyOwnership, deleteComment);
+
 
 
 module.exports = router;

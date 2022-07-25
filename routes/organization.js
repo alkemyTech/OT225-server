@@ -6,6 +6,7 @@ const {
   updateOrganization,
   getOrganizationSlides,
 } = require("../controllers/organization");
+const { verifyOwnership } = require("../middlewares/auth");
 
 router.get("/public", organizationControllers.getAll);
 
@@ -13,6 +14,8 @@ router.get("/public", organizationControllers.getAll);
 router.get("/public/:id", getOrganizationSlides);
 /* update de Organización */
 
-router.put("/public/:id", verifyRole, updateOrganization);
+
+router.put("/public/:id", verifyOwnership, updateOrganization);
+
 
 module.exports = router;

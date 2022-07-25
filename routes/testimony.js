@@ -8,6 +8,7 @@ const {
   deleteTestimony,
   listTestimony
 } = require("../controllers/testimony");
+const { verifyOwnership } = require("../middlewares/auth");
 
 /**
  * @swagger
@@ -98,8 +99,8 @@ router.post("/", verifyRole, createTestimony);
  *      500:
  *        description: Error del servidor
  */
-router.put("/:id", verifyRole, updateTestimony);
 
+router.put("/:id", verifyOwnership, updateTestimony);
 
 router.get('/', listTestimony);
 
@@ -127,6 +128,6 @@ router.get('/', listTestimony);
  */
 
 
-router.delete("/:id", verifyRole, deleteTestimony);
+router.delete("/:id", verifyOwnership, deleteTestimony);
 
 module.exports = router;
