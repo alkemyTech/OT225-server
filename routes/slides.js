@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const router = Router();
+const {verifyRole} = require('../middlewares/auth');
 
 const { createSlide, getSlides, getSlideDetails, updateSlide, deleteSlide} = require("../controllers/slides");
 const { verifyOwnership } = require("../middlewares/auth");
@@ -9,7 +10,8 @@ router.get('/', getSlides);
 /** Get detail of a Slide */
 router.get('/:id', getSlideDetails);
 /** Create a Slide */
-router.post('/', verifyOwnership, createSlide);
+
+router.post('/', verifyRole, createSlide);
 /** Update a Slide */
 router.put('/:id', verifyOwnership, updateSlide);
 /** Delete a Slide */

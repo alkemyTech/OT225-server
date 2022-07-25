@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const {verifyRole} = require('../middlewares/auth')
 
 const {
   createTestimony,
@@ -64,7 +65,7 @@ const { verifyOwnership } = require("../middlewares/auth");
  *
  */
 
-router.post("/", createTestimony);
+router.post("/", verifyRole, createTestimony);
 
 
 /**
@@ -98,8 +99,8 @@ router.post("/", createTestimony);
  *      500:
  *        description: Error del servidor
  */
-router.put("/:id", verifyOwnership, updateTestimony);
 
+router.put("/:id", verifyOwnership, updateTestimony);
 
 router.get('/', listTestimony);
 

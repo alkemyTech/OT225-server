@@ -3,7 +3,7 @@ var router = express.Router();
 var News = require("../models/news");
 
 const { createNew, updateNew, newsController } = require("../controllers/news");
-const { verifyOwnership } = require("../middlewares/auth");
+const { verifyRole, verifyOwnership } = require("../middlewares/auth");
 /**
  * @swagger
  * components:
@@ -85,7 +85,7 @@ router.get("/", newsController.getAll);
  *
  */
 
-router.post("/", createNew);
+router.post("/", verifyRole, createNew);
 
 /**
  * @swagger
@@ -119,7 +119,9 @@ router.post("/", createNew);
  *        description: Error del servidor
  */
 
+
 router.put("/:id", verifyOwnership, updateNew);
+
 
 /**
  * @swagger
@@ -143,7 +145,9 @@ router.put("/:id", verifyOwnership, updateNew);
  *        description: Error del servidor
  */
 
+
 router.delete('/:id', verifyOwnership, newsController.delete);
+
 //Lista comentarios de una News segun su ID
 router.get('/:id/comments', newsController.listNewsComments);
 
