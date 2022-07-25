@@ -32,4 +32,22 @@ const verifyToken = (req, res, next) => {
     };
 };
 
+const verifyOwnership = (req, res, next) => {
+    try {
+        const token = req.header('Authorization')
+        if(!token){
+            res.status(403).json({error: 'Unauthorized', message: ' Access denied'});            
+        }else{
+            const decoded = jwt.verify(token, process.env.SECRET_JWT);
+            if(decoded.roleId === 1){
+                next();
+            }else{
+                res.status(403).json({error: 'Unauthorized', message: 'Access denied'});
+            }
+        }
+    }catch(error){
+        res.status(401).json({error: 'Invalid token', message: error.message});
+    }
+}
+        
 module.exports = {verifyRole, verifyToken}
