@@ -25,7 +25,7 @@ const { sendEmail } = require('../utils/sendgrid')
 * @returns {Promise<User|Error>} - User or Error
 */
 const register = async (req, res) => {
-    const { email, firstName, lastName, password } = req.body;
+    const { email, firstName, lastName, password, roleId } = req.body;
     try {
 
         // Data validation & check is User exists
@@ -41,7 +41,8 @@ const register = async (req, res) => {
             email: email,
             firstName: firstName,
             lastName: lastName,
-            password: password
+            password: password,
+            roleId: roleId
         };
 
         // Encrypt pass

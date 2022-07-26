@@ -62,13 +62,13 @@ describe('User authentication', () => {
                 done();
             });
     });
-    it('responds with status 201 if user login successfully', (done) => {
+    it('responds with status 200 if user login successfully', (done) => {
         chai.request(app)
             .post('/auth/login')
             .send({ email: 'test@test.com', password: 'test1234' })
             .end((err, res) => {
                 console.log(res.body)
-                expect(res).to.have.status(201);
+                expect(res).to.have.status(200);
                 if (err) return done(err);
                 done();
             });

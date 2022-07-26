@@ -32,6 +32,7 @@ describe("POST /news", () => {
     chai
       .request(app)
       .post("/news")
+      .set('Authorization', process.env.TOKEN)
       .send(news)
       .end((err, response) => {
         response.should.have.status(201);
@@ -47,9 +48,26 @@ describe("POST /news", () => {
     chai
       .request(app)
       .post("/news")
+      .set('Authorization', process.env.TOKEN)
       .send(news)
       .end((err, response) => {
         response.should.have.status(400);
+        done();
+      });
+  });
+  it("Debe devolver un error 401, no Autorizado", (done) => {
+    const news = {
+      name: "testeo",
+      content: "testeo",
+      image: "testeo",
+      categoryId: 1,
+    };
+    chai
+      .request(app)
+      .post("/news")
+      .send(news)
+      .end((err, response) => {
+        response.should.have.status(401);
         done();
       });
   });
@@ -64,6 +82,7 @@ describe("PUT /news/:id", () => {
     chai
       .request(app)
       .put(`/news/${id}`)
+      .set('Authorization', process.env.TOKEN)
       .send(news)
       .end((err, response) => {
         response.should.have.status(200);
@@ -76,6 +95,7 @@ describe("PUT /news/:id", () => {
     chai
       .request(app)
       .put(`/news/${id}`)
+      .set('Authorization', process.env.TOKEN)
       .send(news)
       .end((err, response) => {
         response.should.have.status(400);
@@ -90,9 +110,24 @@ describe("PUT /news/:id", () => {
     chai
       .request(app)
       .put(`/news/${id}`)
+      .set('Authorization', process.env.TOKEN)
       .send(news)
       .end((err, response) => {
         response.should.have.status(404);
+        done();
+      });
+  });
+  it("Debe dar un error 401, no autorizado", (done) => {
+    const news = {
+      name: "testeo",
+    };
+    const id = 8;
+    chai
+      .request(app)
+      .put(`/news/${id}`)
+      .send(news)
+      .end((err, response) => {
+        response.should.have.status(401);
         done();
       });
   });
@@ -107,6 +142,7 @@ describe("DELETE /news/:id", () => {
     chai
       .request(app)
       .delete(`/news/${id}}`)
+      .set('Authorization', process.env.TOKEN)
       .end((err, response) => {
         response.should.have.status(200);
         done();
@@ -117,12 +153,24 @@ describe("DELETE /news/:id", () => {
     chai
       .request(app)
       .delete(`/news/${id}`)
+      .set('Authorization', process.env.TOKEN)
       .end((err, response) => {
         response.should.have.status(404);
         done();
       });
   });
 });
+it("Debe devolver 401, no autorizado", (done) => {
+  id = 25;
+  chai
+    .request(app)
+    .delete(`/news/${id}}`)
+    .end((err, response) => {
+      response.should.have.status(401);
+      done();
+    });
+});
+
 
 /* Test the GET (by id) route */
 
@@ -132,6 +180,7 @@ describe("GET /news/:id/comments", () => {
     chai
       .request(app)
       .get(`/news/${id}/comments`)
+      .set('Authorization', process.env.TOKEN)
       .end((err, response) => {
         response.should.have.status(200);
         response.body.should.be.a("object");
@@ -144,6 +193,7 @@ describe("GET /news/:id/comments", () => {
     chai
       .request(app)
       .get(`/news/${id}/comments`)
+      .set('Authorization', process.env.TOKEN)
       .end((err, response) => {
         response.should.have.status(404);
         done();
@@ -154,9 +204,11 @@ describe("GET /news/:id/comments", () => {
     chai
       .request(app)
       .get(`/news/${id}/comments`)
+      .set('Authorization', process.env.TOKEN)
       .end((err, response) => {
         response.should.have.status(404);
         done();
       });
   });
+
 });

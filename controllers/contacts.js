@@ -4,7 +4,13 @@ const { contactEmail } = require("../utils/nodemailer");
 //Permite crear un contacto el cual deberá contener los campos name y email
 const createContact = async (req, res) => {
   try {
-    if (req.name !== null && req.email !== null) {
+    if (
+      req.body.name !== "" &&
+      typeof req.body.name === "string" &&
+      req.body.email !== "" &&
+      typeof req.body.email === "string"
+    ) {
+      console.log(req.name, req.email);
       await models.contacts.create(req.body);
       const userEmail = req.user.name;
       contactEmail(userEmail, "Gracias por el contacto, ");

@@ -19,6 +19,7 @@ describe("POST /activities", () => {
     chai
       .request(app)
       .post("/activities")
+      .set('Authorization', process.env.TOKEN)
       .send(activities)
       .end((err, response) => {
         response.should.have.status(201);
@@ -33,9 +34,25 @@ describe("POST /activities", () => {
     chai
       .request(app)
       .post("/activities")
+      .set('Authorization', process.env.TOKEN)
       .send(activities)
       .end((err, response) => {
         response.should.have.status(400);
+        done();
+      });
+  });
+  it("Responds with status 401, Unauthorized ", (done) => {
+    const activities = {
+      name: "testeo",
+      content: "testeo",
+      image: "testeo"
+    };
+    chai
+      .request(app)
+      .post("/activities")
+      .send(activities)
+      .end((err, response) => {
+        response.should.have.status(401);
         done();
       });
   });
@@ -73,7 +90,7 @@ describe("PUT /activities/:id", () => {
     const activities = {
       name: "testeo",
     };
-    const id = 1;
+    const id = 999999999999999;
     chai
       .request(app)
       .put(`/activities/${id}`)
